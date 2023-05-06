@@ -7,7 +7,10 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 
 
 public class Main extends JFrame {
@@ -33,15 +36,34 @@ public class Main extends JFrame {
     private Image planeImage;
     private Image treeImage;
     private Image ufoImage;
+    private int score = 0;
+    private JButton restartButton;
 
     public Main() {
-//        for background image
+
+        //        for background image
         try {
             BufferedImage originalImage = ImageIO.read(new File("background2.jpg"));
             Image scaledImage = originalImage.getScaledInstance(800, 400, Image.SCALE_SMOOTH);
             ImageIcon scaledIcon = new ImageIcon(scaledImage);
             JLabel backgroundLabel = new JLabel(scaledIcon);
             add(backgroundLabel);
+            restartButton = new JButton("Restart");
+            restartButton.setBounds(350, 230, 80, 30);
+            restartButton.setBackground(Color.RED);
+            restartButton.setForeground(Color.WHITE);
+            restartButton.setFont(new Font("Arial", Font.BOLD, 12));
+            restartButton.setVisible(false); //hide the button initially
+
+            restartButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    restart();
+                }
+            });
+            backgroundLabel.add(restartButton);
+            backgroundLabel.setLayout(null);
+            //add(restartButton);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,6 +83,8 @@ public class Main extends JFrame {
                 }
             }
         });
+
+
         Timer timer = new Timer(30, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -89,6 +113,7 @@ public class Main extends JFrame {
 //    for checking and updating the game status
     private void update() {
         if (!isRunning) {
+            restartButton.setVisible(true); // show the button when the game is over
             return;
         }
 //        make object fall when a space is not clicked
@@ -115,7 +140,13 @@ public class Main extends JFrame {
                 isRunning = false;
             }
         }
+        //increment the score every time the object passes through a pipe
+        if (pipeX + pipeWidth == birdX) {
+            score++;
+        }
     }
+
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -125,10 +156,19 @@ public class Main extends JFrame {
         g.drawImage(treeImage,pipeX, height - pipe2Height, pipeWidth, pipe2Height,null);
         g.setColor(Color.YELLOW);
         g.drawImage(planeImage, birdX, birdY, birdSize, birdSize, null);
+        //for score
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 24));
+        g.drawString("Score: " + score, 20, 30);
         if (!isRunning) {
             g.setColor(Color.RED);
             g.setFont(new Font("Arial", Font.BOLD, 48));
             g.drawString("GAME OVER", width / 2 - 150, height / 2);
+            g.setColor(Color.RED);
+            g.setFont(new Font("Arial", Font.BOLD, 48));
+            g.drawString("GAME OVER", width / 2 - 150, height / 2);
+            g.setFont(new Font("Arial", Font.BOLD, 24));
+            g.drawString("Your score: " + score, width / 2 - 80, height / 2 + 50);
         }
 
     }
@@ -144,6 +184,8 @@ public class Main extends JFrame {
 
         isRunning = true;
     }
+
+
 
     public static void main(String[] args) {
         new Main();

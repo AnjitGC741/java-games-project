@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c363b1d4-1f3c-45d1-903a-adc336c5a838" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/helicopter-game/Main$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/helicopter-game/Main$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/helicopter-game/Main$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/helicopter-game/Main$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/helicopter-game/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/helicopter-game/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -31,13 +34,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "D:/java-projects/Java-GUI-Games/helicopter-game"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/java-projects/Java-GUI-Games/helicopter-game&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

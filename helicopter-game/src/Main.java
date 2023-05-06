@@ -45,6 +45,7 @@ public class Main extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         playSound(true);
         setTitle("Flappy Bird");
         setSize(width, height);
@@ -137,16 +138,13 @@ public class Main extends JFrame {
         birdX = 100;
         birdY = 250;
         birdSpeed = 0;
-
         pipeX = width + 50;
         pipe1Height = 200;
         pipe2Height = height - pipe1Height - pipeGap;
-
         isRunning = true;
     }
 
     public static void main(String[] args) {
         new Main();
-
     }
 }

@@ -40,7 +40,8 @@ public class Main extends JFrame {
     private JButton restartButton;
 
     public Main() {
-
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
         //        for background image
         try {
             BufferedImage originalImage = ImageIO.read(new File("background2.jpg"));
@@ -58,6 +59,7 @@ public class Main extends JFrame {
             restartButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+
                     restart();
                 }
             });
@@ -155,7 +157,7 @@ public class Main extends JFrame {
         g.drawImage(ufoImage,pipeX, 0, pipeWidth, pipe1Height,null);
         g.drawImage(treeImage,pipeX, height - pipe2Height, pipeWidth, pipe2Height,null);
         g.setColor(Color.YELLOW);
-        g.drawImage(planeImage, birdX, birdY, birdSize, birdSize, null);
+            g.drawImage(planeImage, birdX, birdY, birdSize, birdSize, null);
         //for score
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 24));
@@ -173,7 +175,7 @@ public class Main extends JFrame {
 
     }
 //    to restart a game
-    public void restart() {
+    private void restart() {
         birdX = 100;
         birdY = 250;
         birdSpeed = 0;
@@ -181,8 +183,10 @@ public class Main extends JFrame {
         pipeX = width + 50;
         pipe1Height = 200;
         pipe2Height = height - pipe1Height - pipeGap;
-
         isRunning = true;
+        score = 0;
+        restartButton.setVisible(false);
+        playSound(true);
     }
 
 

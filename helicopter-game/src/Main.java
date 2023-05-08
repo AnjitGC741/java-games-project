@@ -36,8 +36,10 @@ public class Main extends JFrame {
     private Image planeImage;
     private Image treeImage;
     private Image ufoImage;
+    private  Image crashed;
     private int score = 0;
     private JButton restartButton;
+    private  JLabel scoreValue;
 
     public Main() {
         setFocusable(true);
@@ -49,20 +51,23 @@ public class Main extends JFrame {
             ImageIcon scaledIcon = new ImageIcon(scaledImage);
             JLabel backgroundLabel = new JLabel(scaledIcon);
             add(backgroundLabel);
+            scoreValue = new JLabel("0");
+            scoreValue.setBounds(370, 50, 100, 60);
+            scoreValue.setFont(new Font("Arial", Font.BOLD, 70));
+            scoreValue.setForeground(Color.WHITE);
             restartButton = new JButton("Restart");
             restartButton.setBounds(350, 230, 80, 30);
             restartButton.setBackground(Color.RED);
             restartButton.setForeground(Color.WHITE);
             restartButton.setFont(new Font("Arial", Font.BOLD, 12));
             restartButton.setVisible(false); //hide the button initially
-
             restartButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
                     restart();
                 }
             });
+            backgroundLabel.add(scoreValue);
             backgroundLabel.add(restartButton);
             backgroundLabel.setLayout(null);
             //add(restartButton);
@@ -77,6 +82,7 @@ public class Main extends JFrame {
         planeImage = new ImageIcon("helicopter.gif").getImage();
         treeImage = new ImageIcon("tree2.png").getImage();
         ufoImage = new ImageIcon("ufo.png").getImage();
+        crashed = new ImageIcon("crashed.gif").getImage();
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -145,24 +151,19 @@ public class Main extends JFrame {
         //increment the score every time the object passes through a pipe
         if (pipeX + pipeWidth == birdX) {
             score++;
+            scoreValue.setText(String.valueOf(score));
         }
     }
-
-
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        g.setColor(Color.RED);
-//        g.fillRect(pipeX, 0, pipeWidth, pipe1Height);
+        g.drawImage(planeImage, birdX, birdY, 60, 50, null);
         g.drawImage(ufoImage,pipeX, 0, pipeWidth, pipe1Height,null);
         g.drawImage(treeImage,pipeX, height - pipe2Height, pipeWidth, pipe2Height,null);
-        g.setColor(Color.YELLOW);
-            g.drawImage(planeImage, birdX, birdY, birdSize, birdSize, null);
-        //for score
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 24));
-        g.drawString("Score: " + score, 20, 30);
+//        g.setColor(Color.YELLOW);
+//        g.fillRect(birdX, birdY, birdSize, birdSize);
         if (!isRunning) {
+            g.drawImage(crashed, birdX, birdY, 45, 35, null);
             g.setColor(Color.RED);
             g.setFont(new Font("Arial", Font.BOLD, 48));
             g.drawString("GAME OVER", width / 2 - 150, height / 2);
@@ -172,14 +173,12 @@ public class Main extends JFrame {
             g.setFont(new Font("Arial", Font.BOLD, 24));
             g.drawString("Your score: " + score, width / 2 - 80, height / 2 + 50);
         }
-
     }
 //    to restart a game
     private void restart() {
         birdX = 100;
         birdY = 250;
         birdSpeed = 0;
-
         pipeX = width + 50;
         pipe1Height = 200;
         pipe2Height = height - pipe1Height - pipeGap;
@@ -187,12 +186,9 @@ public class Main extends JFrame {
         score = 0;
         restartButton.setVisible(false);
         playSound(true);
+        scoreValue.setText(String.valueOf(score) );
     }
-
-
-
     public static void main(String[] args) {
         new Main();
-
     }
 }

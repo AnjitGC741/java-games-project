@@ -40,6 +40,7 @@ public class Main extends JFrame {
     private int score = 0;
     private JButton restartButton;
     private  JLabel scoreValue;
+    private int highScore = 0;
 
     public Main() {
         setFocusable(true);
@@ -56,7 +57,7 @@ public class Main extends JFrame {
             scoreValue.setFont(new Font("Arial", Font.BOLD, 70));
             scoreValue.setForeground(Color.WHITE);
             restartButton = new JButton("Restart");
-            restartButton.setBounds(350, 230, 80, 30);
+            restartButton.setBounds(350, 260, 80, 30);
             restartButton.setBackground(Color.RED);
             restartButton.setForeground(Color.WHITE);
             restartButton.setFont(new Font("Arial", Font.BOLD, 12));
@@ -91,6 +92,31 @@ public class Main extends JFrame {
                 }
             }
         });
+        JLabel backgroundLabel = new JLabel();
+        // Read the high score from a file (if it exists)
+        try {
+            File file = new File("highscore.txt");
+            Scanner scanner = new Scanner(file);
+            highScore = scanner.nextInt();
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            // If the file doesn't exist, create a new one
+            try {
+                File file = new File("highscore.txt");
+                FileWriter writer = new FileWriter(file);
+                writer.write("0");
+                writer.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        JLabel highScoreLabel = new JLabel("High Score: " + highScore);
+        highScoreLabel.setBounds(100, 100, 200, 60);
+        highScoreLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        highScoreLabel.setForeground(Color.WHITE);
+        backgroundLabel.add(highScoreLabel);
+
 
 
         Timer timer = new Timer(30, new ActionListener() {
@@ -122,6 +148,18 @@ public class Main extends JFrame {
     private void update() {
         if (!isRunning) {
             restartButton.setVisible(true); // show the button when the game is over
+            // Update the high score
+            if (score > highScore) {
+                highScore = score;
+                try {
+                    File file = new File("highscore.txt");
+                    FileWriter writer = new FileWriter(file);
+                    writer.write(Integer.toString(highScore));
+                    writer.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
             return;
         }
 //        make object fall when a space is not clicked
@@ -153,7 +191,55 @@ public class Main extends JFrame {
             score++;
             scoreValue.setText(String.valueOf(score));
         }
+
+        if (score > highScore) {
+            highScore = score;
+            // Write the new high score to the file
+            try {
+                File file = new File("highscore.txt");
+                FileWriter writer = new FileWriter(file);
+                writer.write(Integer.toString(highScore));
+                writer.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        scoreValue.setText(String.valueOf(score));
+        scoreValue.repaint();
+        JLabel backgroundLabel = new JLabel();
+// Update the high score label
+        JLabel highScoreValue = new JLabel(String.valueOf(highScore));
+        highScoreValue.setBounds(700, 100, 100, 60);
+        highScoreValue.setFont(new Font("Arial", Font.BOLD, 70));
+        highScoreValue.setForeground(Color.WHITE);
+        backgroundLabel.add(highScoreValue);
+        if (score > highScore) {
+            highScore = score;
+            try {
+                File file = new File("highscore.txt");
+                FileWriter writer = new FileWriter(file);
+                writer.write(Integer.toString(highScore));
+                writer.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
+
+    private void updateHighScore(int score) {
+        if (score > highScore) {
+            highScore = score;
+        }
+        try {
+            FileWriter writer = new FileWriter("highscore.txt");
+            writer.write(Integer.toString(highScore));
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -172,6 +258,7 @@ public class Main extends JFrame {
             g.drawString("GAME OVER", width / 2 - 150, height / 2);
             g.setFont(new Font("Arial", Font.BOLD, 24));
             g.drawString("Your score: " + score, width / 2 - 80, height / 2 + 50);
+            g.drawString("High score: " + highScore, width / 2 - 80, height / 2 + 80);
         }
     }
 //    to restart a game
